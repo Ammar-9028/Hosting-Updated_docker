@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-   IMAGE_REPOSITORY: 289829300853.dkr.ecr.us-east-2.amazonaws.com/update
+   IMAGE_REPOSITORY: 289829300853.dkr.ecr.us-east-2.amazonaws.com
 
 jobs:
  
@@ -55,6 +55,6 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${{ env.IMAGE_REPOSITORY }}
-            docker pull ${{ env.IMAGE_REPOSITORY }}/update:${{ github.sha }}
+            docker push ${{ env.IMAGE_REPOSITORY }}/update:${{ github.sha }}
             docker rm -f update || true
             docker run -itd -p 5000:8000 --name update ${{ env.IMAGE_REPOSITORY }}/update:${{ github.sha }}
