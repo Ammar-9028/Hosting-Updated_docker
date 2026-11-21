@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block title %}Account | {{ brand }}{% endblock %}
+{% block content %}<section class="sec narrow"><h1>Your account</h1>
+<div class="card rv in"><h2>Plan and usage</h2><p><b>Free plan</b> &middot; {{ site_count }}/{{ cfg.max_sites }} sites &middot; {{ (used_bytes / 1048576) | round(2) }} MB stored</p><p class="dim">{{ user.email }}</p></div>
+
+{% if new_token %}<div class="card tokenbox"><h2>Copy your new token now</h2><p class="dim">It is shown only once.</p><pre class="code" id="newtok">{{ new_token }}</pre><button class="btn sm" data-copy="{{ new_token }}" type="button">Copy token</button></div>{% endif %}
+<div class="card rv in"><h2>API tokens</h2><p class="dim">Use a token to deploy from GitHub Actions or scripts. See the <a href="/docs">docs</a>.</p>
+<form method="post" action="/account/tokens" class="inl2"><input type="hidden" name="csrf" value="{{ csrf() }}"><input name="name" placeholder="Token name, e.g. github-actions" maxlength="40"><button class="btn sm" type="submit">Create token</button></form>
+{% for t in tokens %}<div class="dom"><div><b>{{ t.name }}</b><br><small class="dim">Created {{ t.created_at }} &middot; {{ ('last used ' ~ t.last_used) if t.last_used else 'never used' }}</small></div>
+<form method="post" action="/account/tokens/{{ t.id }}/delete"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="btn ghost sm" type="submit">Revoke</button></form></div>{% endfor %}</div>
+
+<div class="card rv in"><h2>Change password</h2><form method="post" action="/account/password" class="stack"><input type="hidden" name="csrf" value="{{ csrf() }}">
+<label>Current password<input type="password" name="current" required autocomplete="current-password"></label>
+<label>New password (min. 8 characters)<input type="password" name="new" required minlength="8" autocomplete="new-password"></label><button class="btn" type="submit">Update password</button></form></div>
+
+<div class="card rv in"><h2>Delete account</h2><p class="dim">This permanently deletes your account, all your sites and their files.</p>
+<form method="post" action="/account/delete" class="inl2" onsubmit="return confirm('Delete your account and all sites forever?')"><input type="hidden" name="csrf" value="{{ csrf() }}"><input type="password" name="password" placeholder="Your password" required><button class="btn ghost sm" type="submit">Delete account</button></form></div></section>{% endblock %}

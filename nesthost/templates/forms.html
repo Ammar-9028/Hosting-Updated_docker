@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}Form inbox | {{ site.subdomain }} | {{ brand }}{% endblock %}
+{% block content %}<section class="sec">{% include "_sitenav.html" %}
+<div class="card"><div class="row between"><h2>Form inbox ({{ rows|length }})</h2><div class="row"><a class="btn ghost sm" href="/sites/{{ site.id }}/forms.csv">Export CSV</a>
+{% if rows %}<form method="post" action="/sites/{{ site.id }}/forms/clear" onsubmit="return confirm('Delete all messages?')"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="btn ghost sm" type="submit">Clear all</button></form>{% endif %}</div></div>
+<p class="dim">Point any HTML form on your site to this address. Messages appear here. A hidden field named <code>_gotcha</code> works as a spam trap.</p>
+<pre class="code">{{ endpoint }}</pre></div>
+{% for r in rows %}<article class="card sub rv in"><div class="row between"><small class="dim">{{ r.created_at }} UTC</small>
+<form method="post" action="/sites/{{ site.id }}/forms/{{ r.id }}/delete"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="lnk" type="submit">Delete</button></form></div>
+<dl>{% for k, v in r.data.items() %}<dt>{{ k }}</dt><dd>{{ v }}</dd>{% endfor %}</dl></article>
+{% else %}<p class="dim">No messages yet.</p>{% endfor %}</section>{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Free domain guide | {{ brand }}{% endblock %}
+{% block content %}<section class="sec narrow"><h1>The truth about free domains</h1>
+<p class="lead">No platform can register a real <b>.com / .in</b> domain for <u>free</u>, because registries charge fees. Even big hosting companies include a domain only with a paid plan. Here are your real options:</p>
+<div class="opt card rv"><h2>1. A free subdomain (right here)</h2><p><b>yourname.{{ base }}</b> is instantly free and comes with HTTPS. <a href="/signup">Sign up</a>.</p></div>
+<div class="opt card rv"><h2>2. Your own domain, cheaply</h2><p>New extensions (.xyz, .site, .online) often have a very cheap first year. Compare prices at a few registrars, check the renewal price, then connect it here.</p></div>
+<div class="opt card rv"><h2>3. Student and community offers</h2><p>Some registrars give students or developers a free first-year domain (for example through the GitHub Student Developer Pack), and some community projects hand out free subdomains. Offers change, so check the current terms yourself.</p></div>
+<div class="opt card rv"><h2>4. Domain checker</h2><p>Type any domain to see whether it is already registered (uses public RDAP data).</p>
+<form class="search light" id="dc2" autocomplete="off"><input id="dc2q" placeholder="example.com" aria-label="Domain" maxlength="80"><button class="btn" type="submit">Check</button></form><p id="dc2r" class="dcr dark" role="status" aria-live="polite"></p></div>
+<div class="opt card rv"><h2>Testing without any domain</h2><p>Locally, <code>mysite.localhost</code> works out of the box. On a server, <code>BASE_DOMAIN=1-2-3-4.sslip.io</code> (your IP with dashes) gives you free wildcard DNS for demos.</p></div></section>{% endblock %}

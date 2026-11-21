@@ -1,0 +1,36 @@
+{% extends "base.html" %}{% block title %}{{ site.subdomain }} | {{ brand }}{% endblock %}
+{% block content %}<section class="sec">{% include "_sitenav.html" %}
+
+<div class="card rv"><div class="row between"><h2>Visitors</h2><span class="dim">{{ total_views }} page views in the last 14 days</span></div>
+<div class="chart" role="img" aria-label="Page views per day, last 14 days">{% for d, v in series %}<div class="col" title="{{ d }}: {{ v }} views"><i style="height:{{ (v / peak * 100) | round(0) }}%"></i><small>{{ d[3:] }}</small></div>{% endfor %}</div>
+<p class="hint">Counts page views of HTML pages. Bots are excluded and no cookies are used.</p></div>
+
+<div class="two"><div class="card rv"><h2>Upload a ZIP</h2><p class="dim">Put <code>index.html</code> in the root of the ZIP. Max {{ max_mb }} MB. Static files only.</p>
+<form id="zipform" data-action="/sites/{{ site.id }}/upload"><input type="hidden" name="csrf" value="{{ csrf() }}"><div class="drop" id="zdrop" tabindex="0" role="button" aria-label="Choose a ZIP file"><input type="file" name="zip" accept=".zip" hidden><p><b>Drop your ZIP here</b><br>or click to choose</p></div>
+<div class="bar2" hidden><i></i></div><p id="zmsg" class="hint" role="status"></p></form>
+<p><a class="btn ghost sm" href="/sites/{{ site.id }}/download">Download backup (ZIP)</a></p></div>
+
+<div class="card rv"><h2>Quick builder</h2><form method="post" action="/sites/{{ site.id }}/publish"><input type="hidden" name="csrf" value="{{ csrf() }}">
+<label>Template<select name="starter">{% for k, v in starters.items() %}<option value="{{ k }}">{{ v }}</option>{% endfor %}</select></label>
+<label>Title / name<input name="title" maxlength="80" value="{{ site.subdomain|replace('-', ' ')|title }}"></label>
+<label>Tagline<input name="tagline" maxlength="200" placeholder="One line about you"></label>
+<label>About<textarea name="about" rows="3" maxlength="600" placeholder="A little more detail"></textarea></label>
+<label>Contact email<input type="email" name="email" maxlength="120" value="{{ user.email }}"></label>
+<button class="btn" type="submit">Publish</button><p class="hint">This only replaces index.html. Your other uploaded files stay untouched.</p></form></div></div>
+
+<div class="two"><div class="card rv"><h2>Form inbox</h2><p class="dim">Add this to any form on your site and read the messages here ({{ subs }} so far).</p>
+<pre class="code">&lt;form method="POST" action="{{ cfg.home_url }}/f/{{ site.form_token }}"&gt;
+  &lt;input name="email" type="email" required&gt;
+  &lt;textarea name="message"&gt;&lt;/textarea&gt;
+  &lt;button&gt;Send&lt;/button&gt;
+&lt;/form&gt;</pre><a class="btn ghost sm" href="/sites/{{ site.id }}/forms">Open inbox</a></div>
+<div class="card rv"><h2>Maintenance mode</h2><p class="dim">Show visitors a friendly maintenance page while you make changes.</p>
+<form method="post" action="/sites/{{ site.id }}/maintenance"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="btn {{ '' if site.maintenance else 'ghost' }}" type="submit">{{ 'Turn OFF maintenance mode' if site.maintenance else 'Turn ON maintenance mode' }}</button></form></div></div>
+
+<div class="card rv"><h2>Custom domain</h2><p class="dim">Got a domain (like <code>mysite.com</code>)? Add it, then at your registrar point the <b>A record</b> to <code>{{ server_ip }}</code> (for www use a CNAME to <code>{{ base }}</code>).</p>
+<form method="post" action="/sites/{{ site.id }}/domain" class="inl2"><input type="hidden" name="csrf" value="{{ csrf() }}"><input name="domain" placeholder="mysite.com" required maxlength="253"><button class="btn sm" type="submit">Add</button></form>
+{% for d in domains %}<div class="dom"><b>{{ d.domain }}</b><span class="st {{ 'active' if d.verified else 'pending' }}">{{ 'verified' if d.verified else 'pending' }}</span>
+<div class="row">{% if not d.verified %}<form method="post" action="/sites/{{ site.id }}/domain/{{ d.id }}/verify"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="btn sm" type="submit">Verify DNS</button></form>{% endif %}
+<form method="post" action="/sites/{{ site.id }}/domain/{{ d.id }}/delete"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="btn ghost sm" type="submit">Remove</button></form></div></div>{% endfor %}</div>
+
+<form method="post" action="/sites/{{ site.id }}/delete" class="danger" onsubmit="return confirm('This permanently deletes the site. Are you sure?')"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="btn ghost sm" type="submit">Delete this site</button></form></section>{% endblock %}

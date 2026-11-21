@@ -1,0 +1,28 @@
+{% extends "base.html" %}{% block title %}Docs &amp; API | {{ brand }}{% endblock %}
+{% block content %}<section class="sec narrow"><h1>Docs and deploy API</h1>
+<p class="lead">Everything you need to ship a static site from your terminal or from GitHub Actions.</p>
+<div class="card rv in"><h2>1. Create a token</h2><p>Log in, open <a href="/account">Account</a> and create an API token. Copy it right away. It is shown only once.</p></div>
+<div class="card rv in"><h2>2. Deploy a ZIP with curl</h2><pre class="code">zip -r site.zip . -x ".git/*"
+curl -X POST {{ cfg.home_url }}/api/v1/sites/YOURSITE/deploy \
+  -H "Authorization: Bearer $NESTHOST_TOKEN" \
+  -F "zip=@site.zip"</pre><p class="dim">Response: <code>{"ok": true, "files": 12, "url": "..."}</code></p></div>
+<div class="card rv in"><h2>3. Deploy from GitHub Actions</h2><p>Save the token as a repository secret named <code>NESTHOST_TOKEN</code>.</p><pre class="code">name: deploy
+on: { push: { branches: [main] } }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: zip -r site.zip . -x ".git/*" ".github/*"
+      - run: |
+          curl -fsS -X POST {{ cfg.home_url }}/api/v1/sites/YOURSITE/deploy \
+            -H "Authorization: Bearer ${{ '{{' }} secrets.NESTHOST_TOKEN {{ '}}' }}" \
+            -F "zip=@site.zip"</pre></div>
+<div class="card rv in"><h2>List your sites</h2><pre class="code">curl {{ cfg.home_url }}/api/v1/sites -H "Authorization: Bearer $NESTHOST_TOKEN"</pre></div>
+<div class="card rv in"><h2>Contact forms</h2><p>Every site has a private form address (see the site page). Post any HTML form to it. Add a hidden <code>_gotcha</code> input as a spam trap. You can also post JSON with <code>fetch</code>.</p>
+<pre class="code">fetch("{{ cfg.home_url }}/f/YOUR_FORM_TOKEN", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email: "a@b.com", message: "Hello" })
+}).then(r =&gt; r.json()).then(console.log);</pre></div>
+<div class="card rv in"><h2>Limits</h2><ul><li>{{ cfg.max_sites }} sites per account, {{ cfg.max_site_mb }} MB per site, {{ cfg.max_files }} files per ZIP</li><li>Static files only. Other file types are skipped during upload.</li><li>API: 60 requests per minute. Forms: 5 submissions per minute per visitor, 500 messages per inbox.</li></ul></div></section>{% endblock %}

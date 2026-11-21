@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}Files | {{ site.subdomain }} | {{ brand }}{% endblock %}
+{% block content %}<section class="sec">{% include "_sitenav.html" %}
+<div class="card"><div class="row between"><h2>File manager</h2><span class="dim">{{ (used / 1024) | round(1) }} KB of {{ (limit / 1048576) | round(0) | int }} MB used</span></div>
+<div class="meter"><i style="width:{{ [used / limit * 100, 100] | min | round(1) }}%"></i></div>
+<div class="two"><form method="post" action="/sites/{{ site.id }}/files/new" class="inl2"><input type="hidden" name="csrf" value="{{ csrf() }}"><input name="path" placeholder="new-page.html or css/extra.css" required maxlength="200"><button class="btn sm" type="submit">New file</button></form>
+<form method="post" action="/sites/{{ site.id }}/files/upload" enctype="multipart/form-data" class="inl2"><input type="hidden" name="csrf" value="{{ csrf() }}"><input type="file" name="files" multiple required><input name="folder" placeholder="folder (optional)" maxlength="80"><button class="btn sm" type="submit">Upload</button></form></div>
+<div class="tw"><table><tr><th>File</th><th>Size</th><th></th></tr>
+{% for f in files %}<tr><td><code>{{ f.path }}</code></td><td>{{ (f.size / 1024) | round(1) }} KB</td><td class="row">{% if f.editable %}<a class="btn ghost sm" href="/sites/{{ site.id }}/files/edit?path={{ f.path | urlencode }}">Edit</a>{% endif %}
+<form method="post" action="/sites/{{ site.id }}/files/delete" onsubmit="return confirm('Delete {{ f.path }}?')"><input type="hidden" name="csrf" value="{{ csrf() }}"><input type="hidden" name="path" value="{{ f.path }}"><button class="btn ghost sm" type="submit">Delete</button></form></td></tr>
+{% else %}<tr><td colspan="3" class="dim">No files yet.</td></tr>{% endfor %}</table></div></div></section>{% endblock %}

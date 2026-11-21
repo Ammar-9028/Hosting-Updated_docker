@@ -1,0 +1,40 @@
+{% extends "base.html" %}{% block bodyclass %}home{% endblock %}
+{% block content %}
+<section class="hero"><div class="blob b1"></div><div class="blob b2"></div>
+<div class="hero-t"><p class="chip"><i></i> 100% free &middot; no credit card</p>
+<h1>Put your website online,<br><span class="grad">completely free.</span></h1>
+<p class="sub">Free hosting, a free <b>yourname.{{ base }}</b> subdomain and automatic HTTPS. Upload a ZIP, edit files in the browser or publish from a ready template. Got your own domain? Connect it too.</p>
+<form class="search" id="dc" autocomplete="off"><input id="dcq" name="q" placeholder="Type a name or a domain, e.g. rahul" aria-label="Subdomain or domain" maxlength="80"><button class="btn" type="submit">Check</button></form>
+<p id="dcr" class="dcr" role="status" aria-live="polite"></p>
+<div class="trust"><span>Free SSL</span><span>Custom domain</span><span>Templates</span><span>File manager</span><span>Form inbox</span></div></div>
+<div class="mock" aria-hidden="true"><div class="win"><div class="bar"><i></i><i></i><i></i><span class="url"><b>https://</b><em>yourname.{{ base }}</em></span></div>
+<div class="scr"><div class="s1"></div><div class="s2"></div><div class="s3"></div><div class="live"><i></i> Live</div></div></div>
+<div class="chipf f1">SSL active</div><div class="chipf f2">3 sites free</div><div class="chipf f3">Deploy in 10s</div></div></section>
+
+<section id="how" class="sec"><h2 class="rv">Online in 3 steps</h2><div class="steps">
+<article class="rv"><span>1</span><h3>Create a free account</h3><p>Just an email and a password. No card needed.</p></article>
+<article class="rv"><span>2</span><h3>Pick your name</h3><p><b>yourname.{{ base }}</b> is yours instantly.</p></article>
+<article class="rv"><span>3</span><h3>Upload or use a template</h3><p>Drop a ZIP or publish a portfolio, business, invitation or link-in-bio template.</p></article></div></section>
+
+<section id="features" class="sec alt"><h2 class="rv">Everything you get</h2><div class="fg">
+<article class="rv"><b>Free subdomain</b><p>Every site gets its own name.{{ base }} address, live instantly.</p></article>
+<article class="rv"><b>Automatic HTTPS</b><p>Certificates are issued for you. No setup.</p></article>
+<article class="rv"><b>ZIP deploy</b><p>Upload a whole static site as a ZIP. Safe extraction, up to {{ cfg.max_site_mb }} MB.</p></article>
+<article class="rv"><b>File manager and editor</b><p>Create, edit, upload and delete files right in your browser.</p></article>
+<article class="rv"><b>Form inbox</b><p>Add a contact form to any static page and read the messages in your dashboard. Export to CSV.</p></article>
+<article class="rv"><b>Visitor analytics</b><p>Privacy-friendly page-view charts for the last 14 days. No cookies.</p></article>
+<article class="rv"><b>Deploy API</b><p>Push your site from GitHub Actions or any script with a secure API token.</p></article>
+<article class="rv"><b>Custom domain</b><p>Connect your own domain, verify DNS and get HTTPS.</p></article>
+<article class="rv"><b>Backups and maintenance mode</b><p>Download your whole site as a ZIP, or show a maintenance page while you work.</p></article></div></section>
+
+<section class="sec"><div class="plan rv"><div><p class="chip dark">Free forever</p><h2>$0 / month</h2><ul><li>{{ cfg.max_sites }} websites</li><li>{{ cfg.max_site_mb }} MB per site</li><li>Free subdomain + HTTPS</li><li>Custom domain connect</li><li>Form inbox and analytics</li></ul></div>
+<a class="btn big" href="/signup">Start for free</a></div>
+<p class="note rv">Static websites only (HTML, CSS, JS, images). PHP, databases and server-side code are not included in this plan.</p></section>
+
+<section id="faq" class="sec alt"><h2 class="rv">Frequently asked questions</h2><div class="faq">
+<details class="rv"><summary>Do I get a real .com domain for free?</summary><p>No. A .com or .in domain is only registered when the registry is paid, so nobody can give it away for free. You get a free <b>subdomain</b> here. See the <a href="/domains">domain guide</a> for real-domain options.</p></details>
+<details class="rv"><summary>How do I connect my own domain?</summary><p>Open your site, add the domain, point its DNS A record to the IP shown, then click Verify.</p></details>
+<details class="rv"><summary>What kind of websites can I host?</summary><p>Static sites only: HTML, CSS, JavaScript, images and fonts. Use the form inbox for contact forms. No PHP or Node.</p></details>
+<details class="rv"><summary>Can I deploy automatically from GitHub?</summary><p>Yes. Create an API token in your account and call the deploy API from GitHub Actions. See the <a href="/docs">docs</a>.</p></details>
+<details class="rv"><summary>Is my data safe?</summary><p>Passwords are hashed. Site files are public by design, so never upload secrets.</p></details></div></section>
+{% endblock %}

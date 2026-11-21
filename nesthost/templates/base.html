@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}{{ brand }} | Free website hosting + free subdomain{% endblock %}</title>
+<meta name="description" content="Host your website for free. Get a free subdomain, automatic HTTPS, a file manager, form inbox and your own custom domain.">
+<meta name="theme-color" content="#2b1a6b">
+<script>try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/style.css"></head>
+<body class="{% block bodyclass %}{% endblock %}">
+<header class="nav"><a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 20a6 6 0 0 1 5-9.9A8 8 0 0 1 26 12a5 5 0 0 1-1 10H8a4 4 0 0 1-2-2z"/></svg>{{ brand }}</a>
+<nav><a href="/domains">Free domain</a><a href="/docs">Docs &amp; API</a><a href="/#features">Features</a><a href="/#faq">FAQ</a>
+<button id="theme" class="lnk" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">&#9680;</button>
+{% if user %}<a class="pill" href="/dashboard">Dashboard</a><a href="/account">Account</a>{% if user.is_admin %}<a href="/admin">Admin</a>{% endif %}
+<form method="post" action="/logout" class="inl"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="lnk" type="submit">Log out</button></form>
+{% else %}<a href="/login">Log in</a><a class="pill" href="/signup">Sign up free</a>{% endif %}</nav></header>
+{% with msgs = get_flashed_messages(with_categories=true) %}{% if msgs %}<div class="flashes">{% for c, m in msgs %}<p class="flash {{ c }}" role="status">{{ m }}</p>{% endfor %}</div>{% endif %}{% endwith %}
+<main>{% block content %}{% endblock %}</main>
+<footer class="foot"><div><b>{{ brand }}</b><p>Free hosting for learning, portfolios and small projects. Spam, phishing and illegal content get a site suspended immediately.</p></div>
+<p>{% if cfg.admin_email %}<a href="mailto:{{ cfg.admin_email }}?subject=Abuse report">Report abuse</a> &middot; {% endif %}<a href="/domains">Domain guide</a> &middot; <a href="/docs">API docs</a></p></footer>
+<script src="/static/js/app.js"></script></body></html>

@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}Edit {{ path }} | {{ brand }}{% endblock %}
+{% block content %}<section class="sec">{% include "_sitenav.html" %}
+<div class="card"><div class="row between"><h2>Editing <code>{{ path }}</code></h2><a href="/sites/{{ site.id }}/files">&larr; Back to files</a></div>
+<form method="post" action="/sites/{{ site.id }}/files/save"><input type="hidden" name="csrf" value="{{ csrf() }}"><input type="hidden" name="path" value="{{ path }}">
+<textarea name="content" class="editor" spellcheck="false" wrap="off" aria-label="File content">{{ content }}</textarea>
+<div class="row"><button class="btn" type="submit">Save</button><a class="btn ghost" href="{{ site_url(site.subdomain) }}/{{ path }}" target="_blank" rel="noopener">Open file</a><span class="hint">Tip: press Ctrl+S to save.</span></div></form></div></section>{% endblock %}

@@ -1,0 +1,4 @@
+<p><a href="/dashboard">&larr; Dashboard</a></p>
+<div class="head"><div><h1>{{ site.subdomain }}.{{ base }}</h1><p class="dim">{{ site.files }} files &middot; {{ (site.bytes / 1024) | round(1) }} KB &middot; <span class="st {{ 'pending' if site.maintenance and site.status == 'active' else site.status }}">{{ 'maintenance' if site.maintenance and site.status == 'active' else site.status }}</span></p></div>
+<div class="row"><a class="btn" href="{{ site_url(site.subdomain) }}" target="_blank" rel="noopener">View site</a><button class="btn ghost" data-copy="{{ site_url(site.subdomain) }}" type="button">Copy link</button></div></div>
+<div class="tabs" role="navigation" aria-label="Site sections"><a href="/sites/{{ site.id }}" class="{{ 'on' if tab == 'overview' }}">Overview</a><a href="/sites/{{ site.id }}/files" class="{{ 'on' if tab == 'files' }}">Files</a><a href="/sites/{{ site.id }}/forms" class="{{ 'on' if tab == 'forms' }}">Form inbox</a></div>
