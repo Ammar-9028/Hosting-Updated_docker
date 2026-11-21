@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  289829300853.dkr.ecr.us-east-2.amazonaws.com/update
+   IMAGE_REPOSITORY: 289829300853.dkr.ecr.us-east-2.amazonaws.com/update
 
 jobs:
  
